@@ -22,11 +22,12 @@ const HOST = 'http://localhost:5005';
 
 const App = () => {
   const [messages, setMessages] = useState([]);
-
+  // Parse the array message
   const parseMessages = useCallback((messArr) => {
     return (messArr || []).map((singleMess) => createNewBotMessage(singleMess));
   }, []);
 
+  // Send message to bot
   const sendMessage = useCallback(
     async (text) => {
       const rasaMessageObj = {
@@ -54,7 +55,7 @@ const App = () => {
     },
     [parseMessages],
   );
-
+  // Send message
   const onSend = useCallback(
     (mess = []) => {
       sendMessage(mess[0].text);
