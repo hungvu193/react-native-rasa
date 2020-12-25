@@ -64,7 +64,7 @@ const App = () => {
     },
     [sendMessage],
   );
-
+  // Bot Button click
   const onQuickReply = (props) => {
     const value = props && props[0] && props[0].value;
     const quickMessage = [
