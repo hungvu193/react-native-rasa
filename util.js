@@ -8,3 +8,26 @@ export function uuidv4() {
     return v.toString(16);
   });
 }
+/**
+ * Return message after format
+ * @param {Object} botMessageObj
+ */
+export function createNewBotMessage(botMessageObj) {
+  return {
+    createdAt: new Date(),
+    username: 'bot',
+    _id: uuidv4(),
+    user: {_id: 'bot'},
+    text: botMessageObj.text,
+    buttons: botMessageObj && botMessageObj.buttons,
+    image: botMessageObj && botMessageObj.image,
+    quickReplies: {
+      type: 'radio', // or 'checkbox',
+      keepIt: false,
+      values: (botMessageObj.buttons || []).map((button) => ({
+        title: button.title,
+        value: button.payload,
+      })),
+    },
+  };
+}
