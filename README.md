@@ -1,5 +1,6 @@
 # ReactNativeRasa
-An simple react native project intergrate with Rasa Open Source with REST. Please see more at [Rasa Docs](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels)
+An simple react native project intergrate with Rasa Open Source with REST. Please see more at [Rasa Docs](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
+
 This project use [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat) so you can use all the props from it.
 
 # Install
@@ -24,7 +25,9 @@ const App = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        <RNRasa onSendMessFailed={(error) => console.log(error)} host={HOST} />
+        <RNRasa 
+          onSendMessFailed={(error) => console.log(error)} host={HOST}
+        />
       </SafeAreaView>
     </>
   );

@@ -24,7 +24,10 @@ const App = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        <RasaChat host={HOST} />
+        <RasaChat
+          host={HOST}
+          onSendMessFailed={(error) => console.log(error)}
+        />
       </SafeAreaView>
     </>
   );
