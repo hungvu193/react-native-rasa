@@ -1,7 +1,7 @@
 # ReactNativeRasa
 An simple react native project intergrate with Rasa Open Source
 
-#Install
+# Install
 ```
 yarn add react-native-rasa
 ```
@@ -10,7 +10,7 @@ or
 npm install react-native rasa
 ```
 
-#How to use
+# How to use
 ```javascript
 import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -35,12 +35,14 @@ export default StyleSheet.create({
 });
 ```
 
-
+# Preview
 <p float="left">
   <img src="https://github.com/hungvu193/ReactNativeRasa/blob/master/preview/Simulator%20Screen%20Shot%20-%20iPhone%2011%20-%202020-12-25%20at%2017.05.06.png" width="200" />
   <img src="https://github.com/hungvu193/ReactNativeRasa/blob/master/preview/Simulator%20Screen%20Shot%20-%20iPhone%2011%20-%202020-12-25%20at%2017.05.14.png" width="200" /> 
   <img src="https://github.com/hungvu193/ReactNativeRasa/blob/master/preview/Simulator%20Screen%20Shot%20-%20iPhone%2011%20-%202020-12-25%20at%2017.05.17.png" width="200" />
 </p>
+
+PR are welcome ❤️
 
 ## License
 
