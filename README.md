@@ -1,5 +1,5 @@
 # ReactNativeRasa
-An simple react native project intergrate with Rasa Open Source with REST. Please see more at [Rasa Docs](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
+An simple react native project intergrates with Rasa Open Source with REST. Please see more at [Rasa Rest API](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
 
 This project use [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat) so you can use all the props from it.
 
@@ -15,7 +15,6 @@ npm install react-native rasa
 # How to use
 ```javascript
 import React from 'react';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import RNRasa from 'react-native-rasa';
 // your rasa host, for example:
@@ -48,16 +47,9 @@ export default StyleSheet.create({
 </p>
 
 ### TODO List:
-
-- [ ] Mercury
-- [x] Venus
-- [x] Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
-- [ ] Saturn
-- [ ] Uranus
-- [ ] Neptune
-- [ ] Comet Haley
+- [ ] Reset bot on destroy
+- [ ] Add restart bot options
+- [ ] Add bot avatar
 
 PR are welcome ❤️
 
