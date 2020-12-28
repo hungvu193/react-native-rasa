@@ -1,7 +1,7 @@
 # ReactNativeRasa
-An simple react native project intergrates with Rasa Open Source with REST. Please see more at [Rasa Rest API](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
+A simple react native project intergrated with Rasa Open Source with REST. Please see more at [Rasa Rest API](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
 
-This project use [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat) so you can use all the props from it.
+This project used [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat) so you can use all the props from it.
 
 # Install
 ```
@@ -50,6 +50,8 @@ export default StyleSheet.create({
 - [ ] Reset bot on destroy
 - [ ] Add restart bot options
 - [ ] Add bot avatar
+- [ ] Handle bot attachment
+- [ ] Voice support
 
 PR are welcome ❤️
 
