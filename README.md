@@ -1,6 +1,40 @@
 # ReactNativeRasa
 An simple react native project intergrate with Rasa Open Source
 
+#Install
+```
+yarn add react-native-rasa
+```
+or
+```
+npm install react-native rasa
+```
+
+#How to use
+```javascript
+import React from 'react';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import RNRasa from 'react-native-rasa';
+
+const App = () => {
+  return (
+    <>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView style={styles.container}>
+        <RNRasa host={HOST} />
+      </SafeAreaView>
+    </>
+  );
+};
+
+export default StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+});
+```
+
 
 <p float="left">
   <img src="https://github.com/hungvu193/ReactNativeRasa/blob/master/preview/Simulator%20Screen%20Shot%20-%20iPhone%2011%20-%202020-12-25%20at%2017.05.06.png" width="200" />
