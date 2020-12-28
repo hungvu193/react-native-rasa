@@ -1,5 +1,6 @@
 # ReactNativeRasa
-An simple react native project intergrate with Rasa Open Source
+An simple react native project intergrate with Rasa Open Source with REST. Please see more at [Rasa Docs](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels)
+This project use [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat) so you can use all the props from it.
 
 # Install
 ```
@@ -16,13 +17,14 @@ import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import RNRasa from 'react-native-rasa';
-
+// your rasa host, for example:
+const HOST = 'http://localhost:5005';
 const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        <RNRasa host={HOST} />
+        <RNRasa onSendMessFailed={(error) => console.log(error)} host={HOST} />
       </SafeAreaView>
     </>
   );
@@ -41,6 +43,18 @@ export default StyleSheet.create({
   <img src="https://github.com/hungvu193/ReactNativeRasa/blob/master/preview/Simulator%20Screen%20Shot%20-%20iPhone%2011%20-%202020-12-25%20at%2017.05.14.png" width="200" /> 
   <img src="https://github.com/hungvu193/ReactNativeRasa/blob/master/preview/Simulator%20Screen%20Shot%20-%20iPhone%2011%20-%202020-12-25%20at%2017.05.17.png" width="200" />
 </p>
+
+### TODO List:
+
+- [ ] Mercury
+- [x] Venus
+- [x] Earth (Orbit/Moon)
+- [x] Mars
+- [ ] Jupiter
+- [ ] Saturn
+- [ ] Uranus
+- [ ] Neptune
+- [ ] Comet Haley
 
 PR are welcome ❤️
 
