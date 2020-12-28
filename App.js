@@ -9,8 +9,9 @@
 import React from 'react';
 import {SafeAreaView, StatusBar} from 'react-native';
 
+import RasaChat from 'react-native-rasa';
+
 import styles from './styles';
-import RNRasa from './RNRasa';
 
 // your host
 const HOST = 'http://localhost:5005';
@@ -23,7 +24,7 @@ const App = () => {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
-        <RNRasa host={HOST} />
+        <RasaChat host={HOST} />
       </SafeAreaView>
     </>
   );

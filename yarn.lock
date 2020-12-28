@@ -5698,6 +5698,16 @@ react-native-parsed-text@0.0.22:
   dependencies:
     prop-types "^15.7.x"
 
+react-native-rasa@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-rasa/-/react-native-rasa-0.0.1.tgz#e4417572f83804ea6339ce95bf7f834b2ea03e78"
+  integrity sha512-qqf0oOwX+TYvwNcsPxGCPxyv23jBV4BoqaA6NLtEQTC2gD1ljGaQgL3+rRqVf1flV96DYngEfWF+ANRVdZaoLQ==
+  dependencies:
+    idx "^2.5.6"
+    react "16.13.1"
+    react-native "0.63.4"
+    react-native-gifted-chat "^0.16.3"
+
 react-native-typing-animation@^0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/react-native-typing-animation/-/react-native-typing-animation-0.1.7.tgz#8f2cf08d9400ae543a110292eb7d71523dda5528"
