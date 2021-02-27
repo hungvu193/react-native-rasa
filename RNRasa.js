@@ -2,10 +2,14 @@ import React, {useState, useCallback} from 'react';
 
 import {GiftedChat} from 'react-native-gifted-chat';
 
-import {uuidv4, createNewBotMessage, createBotEmptyMessage} from './util';
+import {
+  uuidv4,
+  createNewBotMessage,
+  createBotEmptyMessage,
+  fetchOptions,
+} from './util';
 
 //TODO: reset bot on destroy
-//TODO: handle when bot response error
 
 const RNRasa = (
   {host, onSendMessFailed, onEmptyResponse, emptyResponseMessage},
@@ -24,19 +28,11 @@ const RNRasa = (
         message: text,
         sender: 'user',
       };
-
-      const fetchOptions = {
-        method: 'POST',
-        body: JSON.stringify(rasaMessageObj),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
       try {
-        const response = await fetch(
-          `${host}/webhooks/rest/webhook`,
-          fetchOptions,
-        );
+        const response = await fetch(`${host}/webhooks/rest/webhook`, {
+          ...fetchOptions,
+          body: JSON.stringify(rasaMessageObj),
+        });
         const messagesJson = await response.json();
         const newRecivieMess = parseMessages(messagesJson);
         if (!newRecivieMess.length) {

@@ -45,3 +45,10 @@ export function createBotEmptyMessage(emptyMessage) {
     text: emptyMessage,
   };
 }
+
+export const fetchOptions = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
