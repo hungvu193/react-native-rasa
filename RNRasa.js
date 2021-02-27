@@ -2,12 +2,15 @@ import React, {useState, useCallback} from 'react';
 
 import {GiftedChat} from 'react-native-gifted-chat';
 
-import {uuidv4, createNewBotMessage} from './util';
+import {uuidv4, createNewBotMessage, createBotEmptyMessage} from './util';
 
 //TODO: reset bot on destroy
 //TODO: handle when bot response error
 
-const RNRasa = ({host}) => {
+const RNRasa = (
+  {host, onSendMessFailed, onEmptyResponse, emptyResponseMessage},
+  ...giftedChatProp
+) => {
   const [messages, setMessages] = useState([]);
   // Parse the array message
   const parseMessages = useCallback((messArr) => {
@@ -29,18 +32,40 @@ const RNRasa = ({host}) => {
           'Content-Type': 'application/json',
         },
       };
-
-      const response = await fetch(
-        `${host}/webhooks/rest/webhook`,
-        fetchOptions,
-      );
-      const messagesJson = await response.json();
-      const newRecivieMess = parseMessages(messagesJson);
-      setMessages((previousMessages) =>
-        GiftedChat.append(previousMessages, newRecivieMess.reverse()),
-      );
+      try {
+        const response = await fetch(
+          `${host}/webhooks/rest/webhook`,
+          fetchOptions,
+        );
+        const messagesJson = await response.json();
+        const newRecivieMess = parseMessages(messagesJson);
+        if (!newRecivieMess.length) {
+          onEmptyResponse && onEmptyResponse();
+          if (emptyResponseMessage) {
+            const emptyMessageReceive = createBotEmptyMessage(
+              emptyResponseMessage,
+            );
+            setMessages((previousMessages) =>
+              GiftedChat.append(previousMessages, [emptyMessageReceive]),
+            );
+          }
+          return;
+        }
+        setMessages((previousMessages) =>
+          GiftedChat.append(previousMessages, newRecivieMess.reverse()),
+        );
+      } catch (error) {
+        // handle when send message failed
+        onSendMessFailed(error);
+      }
     },
-    [parseMessages, host],
+    [
+      parseMessages,
+      host,
+      onSendMessFailed,
+      onEmptyResponse,
+      emptyResponseMessage,
+    ],
   );
   // Send message
   const onSend = useCallback(
@@ -72,6 +97,7 @@ const RNRasa = ({host}) => {
 
   return (
     <GiftedChat
+      {...giftedChatProp}
       user={{
         _id: 1,
       }}

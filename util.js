@@ -31,3 +31,17 @@ export function createNewBotMessage(botMessageObj) {
     },
   };
 }
+
+/**
+ * Receive a string and return bot message
+ * @param {string} emptyMessage
+ */
+export function createBotEmptyMessage(emptyMessage) {
+  return {
+    createdAt: new Date(),
+    username: 'bot',
+    _id: uuidv4(),
+    user: {_id: 'bot'},
+    text: emptyMessage,
+  };
+}

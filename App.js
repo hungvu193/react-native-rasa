@@ -9,7 +9,7 @@
 import React from 'react';
 import {SafeAreaView, StatusBar} from 'react-native';
 
-import RasaChat from 'react-native-rasa';
+import RasaChat from './RNRasa';
 
 import styles from './styles';
 
@@ -25,6 +25,7 @@ const App = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
         <RasaChat
+          emptyResponseMessage="Sorry, I dont understand"
           host={HOST}
           onSendMessFailed={(error) => console.log(error)}
         />
