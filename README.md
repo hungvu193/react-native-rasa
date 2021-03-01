@@ -36,15 +36,15 @@ At the root of your rasa project, run the following command to start the action 
 rasa run actions
 ```
 You should see the following output at the terminal
-![action-server-img]()
+![action-server-img](https://github.com/hungvu193/react-native-rasa/blob/master/preview/action-server.png)
 
 Open a new terminal and activate the same virtual environment. Change to directory to the same directory as the previous terminal. Run the following command to start the server. The default port is 5005.
 ```
 rasa run --enable-api --cors "*"
 ```
 
-`cors` is required to allow secure data transfer and prevent you from getting `Cross-Origin Resource Sharing error`. The terminal will show the following output. For Windows users, you need to use double quotes to ensure that CORS registered correctly.
-![action-server-img]()
+`cors` is required to allow secure data transfer and prevent you from getting [Cross-Origin Resource Sharing error](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors). The terminal will show the following output. For Windows users, you need to use double quotes to ensure that CORS registered correctly.
+![api-server-img](https://github.com/hungvu193/react-native-rasa/blob/master/preview/enable-api.png)
 
 ### Add chat to your react-native app
 ```javascript
