@@ -14,7 +14,7 @@ import RasaChat from './RNRasa';
 import styles from './styles';
 
 // your host
-const HOST = 'http://localhost:5005';
+const HOST = 'http://localhost:5002';
 
 //TODO: reset bot on destroy
 //TODO: handle when bot response error
@@ -25,7 +25,7 @@ const App = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.container}>
         <RasaChat
-          emptyResponseMessage="Sorry, I dont understand"
+          // emptyResponseMessage="Sorry, I dont understand"
           host={HOST}
           onSendMessFailed={(error) => console.log(error)}
         />
