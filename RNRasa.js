@@ -33,9 +33,7 @@ const RNRasa = (
           ...fetchOptions,
           body: JSON.stringify(rasaMessageObj),
         });
-        console.log('response', response);
         const messagesJson = await response.json();
-        console.log('messagesJson', messagesJson);
         const newRecivieMess = parseMessages(messagesJson);
         if (!newRecivieMess.length) {
           onEmptyResponse && onEmptyResponse();
