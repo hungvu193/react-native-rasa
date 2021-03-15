@@ -22,7 +22,7 @@ rest:
   # you don't need to provide anything here - this channel doesn't
   # require any credentials
 ```
-Restart your Rasa X or Rasa Open Source server to make the REST channel available to receive messages. You can then send messages to http://<host>:<port>/webhooks/rest/webhook, replacing the host and port with the appropriate values from your running Rasa X or Rasa Open Source server.
+Restart your Rasa X or Rasa Open Source server to make the REST channel available to receive messages. You can then send messages to `http://<host>:<port>/webhooks/rest/webhook`, replacing the host and port with the appropriate values from your running Rasa X or Rasa Open Source server.
 
 ## Message Format
 Please see more informations from Rasa Doc at [here](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels), you also need to know about [react-native-gifted-chat message format](https://github.com/FaridSafi/react-native-gifted-chat#message-object) to understand how this libray works.
