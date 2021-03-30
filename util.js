@@ -12,12 +12,15 @@ export function uuidv4() {
  * Return message after format
  * @param {Object} botMessageObj
  */
-export function createNewBotMessage(botMessageObj) {
+export function createNewBotMessage(botMessageObj, botAvatar) {
   return {
     createdAt: new Date(),
     username: 'bot',
     _id: uuidv4(),
-    user: {_id: 'bot'},
+    user: {
+      _id: 'bot',
+      avatar: botAvatar,
+    },
     text: botMessageObj.text,
     buttons: botMessageObj && botMessageObj.buttons,
     image: botMessageObj && botMessageObj.image,
