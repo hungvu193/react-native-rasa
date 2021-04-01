@@ -12,14 +12,26 @@ import {
 //TODO: reset bot on destroy
 
 const RNRasa = (
-  {host, onSendMessFailed, onEmptyResponse, emptyResponseMessage},
+  {
+    host,
+    onSendMessFailed,
+    onEmptyResponse,
+    emptyResponseMessage,
+    userAvatar,
+    botAvatar,
+  },
   ...giftedChatProp
 ) => {
   const [messages, setMessages] = useState([]);
   // Parse the array message
-  const parseMessages = useCallback((messArr) => {
-    return (messArr || []).map((singleMess) => createNewBotMessage(singleMess));
-  }, []);
+  const parseMessages = useCallback(
+    (messArr) => {
+      return (messArr || []).map((singleMess) =>
+        createNewBotMessage(singleMess, botAvatar),
+      );
+    },
+    [botAvatar],
+  );
 
   // Send message to bot
   const sendMessage = useCallback(
@@ -74,28 +86,32 @@ const RNRasa = (
     [sendMessage],
   );
   // Bot Button click
-  const onQuickReply = (props) => {
-    const value = props && props[0] && props[0].value;
-    const quickMessage = [
-      {
-        createdAt: new Date(),
-        username: 'user',
-        _id: uuidv4(),
-        user: {_id: 1},
-        text: value,
-      },
-    ];
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, quickMessage.reverse()),
-    );
-    sendMessage(value);
-  };
+  const onQuickReply = useCallback(
+    (props) => {
+      const value = props && props[0] && props[0].value;
+      const quickMessage = [
+        {
+          createdAt: new Date(),
+          username: 'user',
+          _id: uuidv4(),
+          user: {_id: 1, avatar: userAvatar},
+          text: value,
+        },
+      ];
+      setMessages((previousMessages) =>
+        GiftedChat.append(previousMessages, quickMessage.reverse()),
+      );
+      sendMessage(value);
+    },
+    [userAvatar, sendMessage],
+  );
 
   return (
     <GiftedChat
       {...giftedChatProp}
       user={{
         _id: 1,
+        avatar: userAvatar,
       }}
       onSend={(mess) => onSend(mess)}
       messages={messages}
