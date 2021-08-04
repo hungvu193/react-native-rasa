@@ -28,6 +28,7 @@ const App = () => {
           // emptyResponseMessage="Sorry, I dont understand"
           host={HOST}
           onSendMessFailed={(error) => console.log(error)}
+          placeholder="Your input placeholder"
         />
       </SafeAreaView>
     </>

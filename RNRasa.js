@@ -11,17 +11,15 @@ import {
 
 //TODO: reset bot on destroy
 
-const RNRasa = (
-  {
-    host,
-    onSendMessFailed,
-    onEmptyResponse,
-    emptyResponseMessage,
-    userAvatar,
-    botAvatar,
-  },
+const RNRasa = ({
+  host,
+  onSendMessFailed,
+  onEmptyResponse,
+  emptyResponseMessage,
+  userAvatar,
+  botAvatar,
   ...giftedChatProp
-) => {
+}) => {
   const [messages, setMessages] = useState([]);
   // Parse the array message
   const parseMessages = useCallback(
