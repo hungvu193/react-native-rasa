@@ -1,6 +1,6 @@
 {
   "name": "react-native-rasa",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": false,
   "scripts": {
     "android": "react-native run-android",
