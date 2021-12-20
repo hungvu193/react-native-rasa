@@ -11,27 +11,45 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "babel-plugin-module-resolver": "^4.1.0",
     "idx": "^2.5.6",
     "react": "17.0.2",
     "react-native": "0.66.4",
-    "react-native-gifted-chat": "^0.16.3"
+    "react-native-get-random-values": "^1.7.1",
+    "react-native-gifted-chat": "^0.16.3",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^17.0.1",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-native": "^0.66.9",
     "babel-jest": "^26.6.3",
     "eslint": "7.14.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.66.2",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
-    "react-test-renderer": "17.0.2"
+    "prettier": "^2.5.1",
+    "react-test-renderer": "17.0.2",
+    "typescript": "^4.5.4"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   },
-  "description": "An simple react native project intergrate with Rasa Open Source",
+  "description": "A simple react native project integration with Rasa Open Source",
   "main": "RNRasa.js",
   "repository": {
     "type": "git",
