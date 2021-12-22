@@ -9,7 +9,7 @@
 import React from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 
-import { RasaChat } from './RNRasa';
+import RasaChat from './RNRasa';
 
 import styles from './styles';
 

@@ -10,7 +10,7 @@ import { IRasaResponse } from './types';
 export { uuidv4 };
 
 /**
- * Return message after format
+ * Return a message after format
  * @param {Object} botMessageObj
  * @param {Object} botData
  */
@@ -35,7 +35,7 @@ export const createNewBotMessage = (botMessageObj: IRasaResponse, botData: User)
 }
 
 /**
- * Receive a string and return bot message
+ * Receives a string and botData and returns an empty bot message
  * @param {string} emptyMessage
  * @param {Object} botData
  */
@@ -69,15 +69,10 @@ export const fetchOptions = {
   },
 };
 
-
-export const isValidNotEmptyArray = (array: any[]) => {
-  if (
-    typeof array !== 'undefined'
-    && array != null
-    && array.length != null
-    && array.length > 0
-  ) {
-    return true;
-  }
-  return false;
+/**
+ * Receive an array and Returs true if is a valid array and its is not empty otherwise it returns false
+ * @param {array} array
+ */
+export const isValidNotEmptyArray = (array: any[]): boolean => {
+  return !!(array && array?.length && array?.length > 0)
 };

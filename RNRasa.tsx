@@ -48,8 +48,8 @@ export interface IRasaChat extends Omit<GiftedChatProps, 'user' | 'onSend' | 'me
 const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
   const {
     host,
-    onSendMessFailed = (error) => console.log('Send mess failed', error),
-    onEmptyResponse = () => console.log('The bot response is empty'),
+    onSendMessFailed,
+    onEmptyResponse,
     emptyResponseMessage,
     userId = 'UserId1',
     userName = '',
@@ -158,4 +158,5 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
   );
 };
 
-export { RasaChat, Actions, Avatar, Bubble, SystemMessage, MessageImage, MessageText, Composer, Day, InputToolbar, LoadEarlier, Message, MessageContainer, Send, Time, GiftedAvatar, utils };
+export default RasaChat;
+export { Actions, Avatar, Bubble, SystemMessage, MessageImage, MessageText, Composer, Day, InputToolbar, LoadEarlier, Message, MessageContainer, Send, Time, GiftedAvatar, utils };
