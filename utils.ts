@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
   IMessage,
-  User
+  User,
+  QuickReplies
 } from 'react-native-gifted-chat';
 import { IRasaResponse } from './types';
 /**
@@ -17,20 +18,40 @@ export { uuidv4 };
 
 // To do add compatibility for checkboxes (It will need create a custom schema similar tu slack)
 export const createNewBotMessage = (botMessageObj: IRasaResponse, botData: User): IMessage => {
+  const {
+    attachment,
+    buttons,
+    text = '',
+    image = ''
+  } = botMessageObj;
+  let quickReplies = {
+    type: 'radio',
+    keepIt: false,
+    values: []
+  } as QuickReplies;
+
+  if (isValidNotEmptyArray(buttons)) {
+    quickReplies.values = buttons?.map((button) => ({
+      title: button.title,
+      value: button.payload,
+    }))
+  } else {
+    if (attachment) {
+      quickReplies.type = attachment?.payload?.template_type ?? 'radio';
+      quickReplies.values = attachment?.payload?.buttons?.map((button) => ({
+        title: button.title,
+        value: button.payload,
+      })) ?? []
+    }
+  }
+
   return {
     createdAt: new Date(),
     _id: uuidv4(),
     user: botData,
-    text: botMessageObj?.text ?? '',
-    image: botMessageObj?.image ?? '',
-    quickReplies: {
-      type: 'radio', // or 'checkbox',
-      keepIt: false,
-      values: botMessageObj?.buttons?.map((button) => ({
-        title: button.title,
-        value: button.payload,
-      })) ?? [],
-    },
+    text,
+    image,
+    quickReplies
   };
 }
 
@@ -49,7 +70,7 @@ export const createBotEmptyMessage = (emptyMessage: string, botData: User): IMes
 }
 
 /**
- * Receive a string, userDta and return user message
+ * Receive a string, userData and return user message
  * @param {string} text
  * @param {Object} userData
  */
