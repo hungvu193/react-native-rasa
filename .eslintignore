@@ -1,0 +1,7 @@
+babel.config.js
+metro.config.js
+.eslintrc.js
+react-native.config.js
+jest.config.js
+index.js
+App-test.tsx
