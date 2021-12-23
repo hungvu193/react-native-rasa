@@ -1,4 +1,4 @@
-import React, { useState, useCallback, FC } from 'react';
+import React, { useState, useMemo, useCallback, FC } from 'react';
 import {
   GiftedChat,
   GiftedChatProps,
@@ -59,7 +59,7 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     ...giftedChatProp
   } = props;
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [lastRasaResponse, setLastRasaResponse] = useState<IRasaResponse>({});
+  const [lastRasaAttachmentResponse, setLastRasaAttachmentResponse] = useState<IRasaResponse>();
   const userData: User = {
     _id: userId,
     name: userName,
@@ -70,6 +70,12 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     name: botName,
     avatar: botAvatar,
   }
+
+  // Check if last message was a checklist or not
+  const hasLastRasaMessageAChecklist = useMemo(() => {
+    if (lastRasaAttachmentResponse?.attachment?.payload?.template_type === 'checkbox') return true;
+    return false;
+  }, [lastRasaAttachmentResponse]);
 
   // Parse the array message
   const parseMessages = useCallback((messArr: IRasaResponse[]): IMessage[] => {
@@ -89,8 +95,7 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
         ...fetchOptions,
         body: JSON.stringify(rasaMessageObj),
       });
-      const messagesJson = await response.json();
-      if(messagesJson) setLastRasaResponse(messagesJson[0]);      
+      const messagesJson: IRasaResponse[] = await response.json();
       const newRecivieMess = parseMessages(messagesJson);
       if (!isValidNotEmptyArray(newRecivieMess)) {
         onEmptyResponse && onEmptyResponse();
@@ -102,6 +107,8 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
         }
         return;
       }
+      const attachment = messagesJson?.find((message) => message.hasOwnProperty('attachment'))
+      setLastRasaAttachmentResponse(attachment);
       setMessages((previousMessages) =>
         GiftedChat.append(previousMessages, newRecivieMess.reverse()),
       );
@@ -132,18 +139,18 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
   const onQuickReply = useCallback((replies: Reply[]): void => {
     let quickMessage: IMessage[] = []
     let userText2Rasa: string = ''
-    // Case when reply is a radio -> just one option
-    if (replies.length === 1) {
+    // Case when reply is a radio -> just one option and not a checklist with 1 option choosen
+    if (replies.length <= 1 && !hasLastRasaMessageAChecklist) {
       const { value = '', title = '' } = replies[0] ?? {};
       quickMessage = [createQuickUserReply(title, userData)]
       userText2Rasa = value;
     }
-    // Case when reply is a checkbox -> Multiple options
-    else if (replies.length > 1) {
+    // Case when reply is a checkbox -> Multiple options more than 2 options choosen
+    else {
       quickMessage = [...replies.map((reply) => createQuickUserReply(reply.title, userData))]
       const checklistOptions = replies.map(reply => reply.value);
-      const { payload = '/custom_intent', slot = 'custom_slot' } = lastRasaResponse?.attachment?.payload ?? {};
-      const newPayload = JSON.stringify({[slot]: checklistOptions})
+      const { payload = '/custom_intent', slot = 'custom_slot' } = lastRasaAttachmentResponse?.attachment?.payload ?? {};
+      const newPayload = JSON.stringify({ [slot]: checklistOptions })
       userText2Rasa = `${payload}${newPayload}`;
     }
     sendMessage(userText2Rasa);
