@@ -10,6 +10,7 @@ export interface IButton {
 
 
 export interface IRasaResponse {
+  recipient_id: string | number
   text?: string;
   image?: string;
   json_message?: {};
