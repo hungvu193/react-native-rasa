@@ -14,7 +14,8 @@ import RasaChat from './RNRasa';
 import styles from './styles';
 
 // your host http://localhost:5005. Apps work better on https so you can use ngrok if development
-const HOST = 'http://localhost:5005';
+// const HOST = 'http://localhost:5005';
+const HOST = 'https://84d4-2800-bf0-24a-10f4-f47d-ae98-3b25-38dd.ngrok.io'
 
 // Your bot
 const botAvatar="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80"

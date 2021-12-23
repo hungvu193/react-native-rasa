@@ -58,7 +58,8 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     botAvatar = '',
     ...giftedChatProp
   } = props;
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [lastRasaResponse, setLastRasaResponse] = useState<IRasaResponse>({});
   const userData: User = {
     _id: userId,
     name: userName,
@@ -89,6 +90,7 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
         body: JSON.stringify(rasaMessageObj),
       });
       const messagesJson = await response.json();
+      if(messagesJson) setLastRasaResponse(messagesJson[0]);      
       const newRecivieMess = parseMessages(messagesJson);
       if (!isValidNotEmptyArray(newRecivieMess)) {
         onEmptyResponse && onEmptyResponse();
@@ -139,7 +141,10 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     // Case when reply is a checkbox -> Multiple options
     else if (replies.length > 1) {
       quickMessage = [...replies.map((reply) => createQuickUserReply(reply.title, userData))]
-      userText2Rasa = replies.map(reply => reply.value).join(', ');
+      const checklistOptions = replies.map(reply => reply.value);
+      const { payload = '/custom_intent', slot = 'custom_slot' } = lastRasaResponse?.attachment?.payload ?? {};
+      const newPayload = JSON.stringify({[slot]: checklistOptions})
+      userText2Rasa = `${payload}${newPayload}`;
     }
     sendMessage(userText2Rasa);
     setMessages((previousMessages) =>
