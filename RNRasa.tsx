@@ -71,8 +71,8 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     avatar: botAvatar,
   }
 
-  // Check if last message was a checklist or not
-  const hasLastRasaMessageAChecklist = useMemo(() => {
+  // Check if last message contains a checkbox or not
+  const hasLastRasaMessageACheckbox = useMemo(() => {
     if (lastRasaAttachmentResponse?.attachment?.payload?.template_type === 'checkbox') return true;
     return false;
   }, [lastRasaAttachmentResponse]);
@@ -139,8 +139,8 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
   const onQuickReply = useCallback((replies: Reply[]): void => {
     let quickMessage: IMessage[] = []
     let userText2Rasa: string = ''
-    // Case when reply is a radio -> just one option and not a checklist with 1 option choosen
-    if (replies.length <= 1 && !hasLastRasaMessageAChecklist) {
+    // Case when reply is a radio -> just one option and not a checkbox with 1 option choosen
+    if (replies.length <= 1 && !hasLastRasaMessageACheckbox) {
       const { value = '', title = '' } = replies[0] ?? {};
       quickMessage = [createQuickUserReply(title, userData)]
       userText2Rasa = value;
@@ -148,9 +148,9 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     // Case when reply is a checkbox -> Multiple options more than 2 options choosen
     else {
       quickMessage = [...replies.map((reply) => createQuickUserReply(reply.title, userData))]
-      const checklistOptions = replies.map(reply => reply.value);
+      const checkboxOptions = replies.map(reply => reply.value);
       const { payload = '/custom_intent', slot = 'custom_slot' } = lastRasaAttachmentResponse?.attachment?.payload ?? {};
-      const newPayload = JSON.stringify({ [slot]: checklistOptions })
+      const newPayload = JSON.stringify({ [slot]: checkboxOptions })
       userText2Rasa = `${payload}${newPayload}`;
     }
     sendMessage(userText2Rasa);
