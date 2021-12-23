@@ -30,6 +30,7 @@ export const createNewBotMessage = (botMessageObj: IRasaResponse, botData: User)
     values: []
   } as QuickReplies;
 
+  // 
   if (isValidNotEmptyArray(buttons)) {
     quickReplies.values = buttons?.map((button) => ({
       title: button.title,
