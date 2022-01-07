@@ -19,7 +19,7 @@ export { uuidv4 };
 // To do add compatibility for checkboxes (It will need create a custom schema similar tu slack)
 export const createNewBotMessage = (botMessageObj: IRasaResponse, botData: User): IMessage => {
   const {
-    attachment,
+    custom,
     buttons,
     text = '',
     image = ''
@@ -30,16 +30,15 @@ export const createNewBotMessage = (botMessageObj: IRasaResponse, botData: User)
     values: []
   } as QuickReplies;
 
-  // 
   if (isValidNotEmptyArray(buttons)) {
     quickReplies.values = buttons?.map((button) => ({
       title: button.title,
       value: button.payload,
     }))
   } else {
-    if (attachment) {
-      quickReplies.type = attachment?.payload?.template_type ?? 'radio';
-      quickReplies.values = attachment?.payload?.buttons?.map((button) => ({
+    if (custom) {      
+      quickReplies.type = custom?.payload?.template_type ?? 'radio';
+      quickReplies.values = custom?.payload?.buttons?.map((button) => ({
         title: button.title,
         value: button.payload,
       })) ?? []

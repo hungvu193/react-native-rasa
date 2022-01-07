@@ -109,7 +109,7 @@ export default StyleSheet.create({
 
 - [ ] Reset bot on destroy
 - [ ] Add restart bot options
-- [ ] Add checkbox messages and quick replies
+- [x] Add checkbox messages and quick replies
 - [x] Add bot avatar
 - [ ] Voice support
 - [ ] Add example
