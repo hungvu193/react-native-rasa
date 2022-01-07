@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useCallback, FC } from 'react';
+import React, { useState, useCallback, useMemo, FC, useImperativeHandle } from 'react';
+
 import {
   GiftedChat,
   GiftedChatProps,
@@ -23,6 +24,7 @@ import {
   User
 } from 'react-native-gifted-chat';
 import { IRasaMessage, IRasaResponse } from './types';
+
 import {
   createNewBotMessage,
   createBotEmptyMessage,
@@ -44,8 +46,11 @@ export interface IRasaChat extends Omit<GiftedChatProps, 'user' | 'onSend' | 'me
   botName?: string;
   botAvatar?: string;
 }
+export interface IRasaChatHandles {
+  resetMessages(): void;
+}
 
-const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
+const RasaChat = React.forwardRef<IRasaChatHandles, IRasaChat>((props, ref) => {
   const {
     host,
     onSendMessFailed,
@@ -59,7 +64,7 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     ...giftedChatProp
   } = props;
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [lastRasaAttachmentResponse, setLastRasaAttachmentResponse] = useState<IRasaResponse>();
+  const [lastRasaCustomResponse, setLastRasaCustomResponse] = useState<IRasaResponse>();
   const userData: User = {
     _id: userId,
     name: userName,
@@ -71,11 +76,18 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     avatar: botAvatar,
   }
 
+  // Inner function that cleans bot messages from a parent component
+  useImperativeHandle(ref, () => ({
+    resetMessages() {
+      setMessages([]);
+    },
+  }));
+
   // Check if last message contains a checkbox or not
   const hasLastRasaMessageACheckbox = useMemo(() => {
-    if (lastRasaAttachmentResponse?.attachment?.payload?.template_type === 'checkbox') return true;
+    if (lastRasaCustomResponse?.custom?.payload?.template_type === 'checkbox') return true;
     return false;
-  }, [lastRasaAttachmentResponse]);
+  }, [lastRasaCustomResponse]);
 
   // Parse the array message
   const parseMessages = useCallback((messArr: IRasaResponse[]): IMessage[] => {
@@ -90,12 +102,18 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
       message: text,
       sender: `${userId}`,
     };
+    console.log('rasaMessageObj', rasaMessageObj)
+
     try {
       const response = await fetch(`${host}/webhooks/rest/webhook`, {
         ...fetchOptions,
         body: JSON.stringify(rasaMessageObj),
       });
+      console.log('response', response)
+
       const messagesJson: IRasaResponse[] = await response.json();
+      let customMessage = messagesJson?.find((message) => message.hasOwnProperty('custom'))
+      if (customMessage?.attachment) customMessage.attachment = JSON.parse(customMessage?.attachment as string)
       const newRecivieMess = parseMessages(messagesJson);
       if (!isValidNotEmptyArray(newRecivieMess)) {
         onEmptyResponse && onEmptyResponse();
@@ -107,8 +125,7 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
         }
         return;
       }
-      const attachment = messagesJson?.find((message) => message.hasOwnProperty('attachment'))
-      setLastRasaAttachmentResponse(attachment);
+      setLastRasaCustomResponse(customMessage);
       setMessages((previousMessages) =>
         GiftedChat.append(previousMessages, newRecivieMess.reverse()),
       );
@@ -149,7 +166,7 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     else {
       quickMessage = [...replies.map((reply) => createQuickUserReply(reply.title, userData))]
       const checkboxOptions = replies.map(reply => reply.value);
-      const { payload = '/custom_intent', slot = 'custom_slot' } = lastRasaAttachmentResponse?.attachment?.payload ?? {};
+      const { payload = '/custom_intent', slot = 'custom_slot' } = lastRasaCustomResponse?.custom?.payload ?? {};
       const newPayload = JSON.stringify({ [slot]: checkboxOptions })
       userText2Rasa = `${payload}${newPayload}`;
     }
@@ -168,7 +185,7 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
       {...giftedChatProp}
     />
   );
-};
+});
 
 export default RasaChat;
 export { Actions, Avatar, Bubble, SystemMessage, MessageImage, MessageText, Composer, Day, InputToolbar, LoadEarlier, Message, MessageContainer, Send, Time, GiftedAvatar, utils };
