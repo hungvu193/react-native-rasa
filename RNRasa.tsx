@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, FC, useImperativeHandle } from 'react';
+import React, { useState, useCallback, useMemo, useImperativeHandle } from 'react';
 
 import {
   GiftedChat,
@@ -48,6 +48,7 @@ export interface IRasaChat extends Omit<GiftedChatProps, 'user' | 'onSend' | 'me
 }
 export interface IRasaChatHandles {
   resetMessages(): void;
+  resetBot(): void;
 }
 
 const RasaChat = React.forwardRef<IRasaChatHandles, IRasaChat>((props, ref) => {
@@ -81,6 +82,9 @@ const RasaChat = React.forwardRef<IRasaChatHandles, IRasaChat>((props, ref) => {
     resetMessages() {
       setMessages([]);
     },
+    resetBot(){
+      sendMessage("/restart")
+    }
   }));
 
   // Check if last message contains a checkbox or not
@@ -102,18 +106,14 @@ const RasaChat = React.forwardRef<IRasaChatHandles, IRasaChat>((props, ref) => {
       message: text,
       sender: `${userId}`,
     };
-    console.log('rasaMessageObj', rasaMessageObj)
-
     try {
       const response = await fetch(`${host}/webhooks/rest/webhook`, {
         ...fetchOptions,
         body: JSON.stringify(rasaMessageObj),
       });
-      console.log('response', response)
-
       const messagesJson: IRasaResponse[] = await response.json();
       let customMessage = messagesJson?.find((message) => message.hasOwnProperty('custom'))
-      if (customMessage?.attachment) customMessage.attachment = JSON.parse(customMessage?.attachment as string)
+      if (customMessage?.attachment) customMessage.attachment = JSON.parse(customMessage?.attachment)
       const newRecivieMess = parseMessages(messagesJson);
       if (!isValidNotEmptyArray(newRecivieMess)) {
         onEmptyResponse && onEmptyResponse();
