@@ -108,8 +108,13 @@ export default StyleSheet.create({
 ### TODO List:
 
 - [ ] Reset bot on destroy
+<<<<<<< HEAD
 - [x] Add restart bot options
 - [x] Add checkbox messages and quick replies
+=======
+- [ ] Add restart bot options
+- [ ] Add checkbox messages and quick replies
+>>>>>>> upstream/master
 - [x] Add bot avatar
 - [ ] Voice support
 - [ ] Add example
