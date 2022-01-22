@@ -7,7 +7,8 @@
  */
 
 import React, { useRef } from 'react';
-import { SafeAreaView, StatusBar, Text } from 'react-native';
+import { SafeAreaView, StatusBar, Text, View } from 'react-native';
+import Video from 'react-native-video';
 
 import RasaChat, { Send, InputToolbar, Composer, Actions, IRasaChatHandles } from './RNRasa';
 
@@ -32,6 +33,10 @@ const App = () => {
 
   const resetBot = () => {
     rasaChatRef?.current?.resetBot();
+  }
+
+  const sendStartConversation = () => {
+    rasaChatRef?.current?.sendCustomMessage('Hi');
   }
 
   return (
@@ -64,9 +69,10 @@ const App = () => {
               {...props}
               containerStyle={styles.containerActions}
               options={{
+                'Start New Conversation': sendStartConversation,
                 'Clear messages': resetMessages,
                 'Reset Bot': resetBot,
-                'Cancel': () => {},
+                'Cancel': () => { },
               }}
             />
           )}
@@ -84,8 +90,26 @@ const App = () => {
                 disabled={!props.text}
                 containerStyle={styles.sendContainer}
               >
-                <Text style={{color: !props.text ? '#d6d3d1' : '#2097F3'}}>Send</Text>
+                <Text style={{ color: !props.text ? '#d6d3d1' : '#2097F3' }}>Send</Text>
               </Send >
+            );
+          }}
+          // @ts-ignore
+          renderMessageVideo={(props) => {
+            const { currentMessage } = props;
+            console.log('currentMessage', currentMessage)
+            return (
+              <View style={{ padding: 20 }}>
+                <Video                  
+                  source={{ uri: currentMessage?.video }}
+                  resizeMode="cover"
+                  repeat
+                  controls                  
+                  //onBuffer={this.onBuffer}                // Callback when remote video is buffering
+                  //onError={this.videoError}               // Callback when video cannot be loaded
+                  style={styles.backgroundVideo}
+                />                
+              </View>
             );
           }}
         />
@@ -93,5 +117,6 @@ const App = () => {
     </>
   );
 };
+
 
 export default App;

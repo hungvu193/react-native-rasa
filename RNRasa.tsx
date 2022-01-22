@@ -34,7 +34,6 @@ import {
 } from './utils';
 
 //TODO: reset bot on destroy
-
 export interface IRasaChat extends Omit<GiftedChatProps, 'user' | 'onSend' | 'messages' | 'onQuickReply'> {
   host: string;
   onSendMessFailed?: (error) => void
@@ -49,6 +48,7 @@ export interface IRasaChat extends Omit<GiftedChatProps, 'user' | 'onSend' | 'me
 export interface IRasaChatHandles {
   resetMessages(): void;
   resetBot(): void;
+  sendCustomMessage(string): void;
 }
 
 const RasaChat = React.forwardRef<IRasaChatHandles, IRasaChat>((props, ref) => {
@@ -82,8 +82,14 @@ const RasaChat = React.forwardRef<IRasaChatHandles, IRasaChat>((props, ref) => {
     resetMessages() {
       setMessages([]);
     },
-    resetBot(){
+    resetBot() {
       sendMessage("/restart")
+    },
+    sendCustomMessage(text: string) {
+      setMessages((previousMessages) =>
+        GiftedChat.append(previousMessages, [createQuickUserReply(text, userData)]),
+      );
+      sendMessage(text)
     }
   }));
 
@@ -113,7 +119,6 @@ const RasaChat = React.forwardRef<IRasaChatHandles, IRasaChat>((props, ref) => {
       });
       const messagesJson: IRasaResponse[] = await response.json();
       let customMessage = messagesJson?.find((message) => message.hasOwnProperty('custom'))
-      if (customMessage?.attachment) customMessage.attachment = JSON.parse(customMessage?.attachment)
       const newRecivieMess = parseMessages(messagesJson);
       if (!isValidNotEmptyArray(newRecivieMess)) {
         onEmptyResponse && onEmptyResponse();

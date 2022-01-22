@@ -8,6 +8,17 @@ export interface IButton {
   payload: string;
 }
 
+export interface IRadioCheckbox {
+  template_type: "radio" | "checkbox";
+  text: string;
+  payload?: string;
+  slot: string;
+  buttons: {
+    type?: string;
+    title?: string;
+    payload?: string;
+  }[]
+}
 
 export interface IRasaResponse {
   text?: string;
@@ -24,15 +35,6 @@ export interface IRasaResponse {
 // https://developers.facebook.com/docs/messenger-platform/send-messages/templates
 export interface IButtonTemplate {
   type: string;
-  payload: {
-    template_type: "radio" | "checkbox";
-    text: string;
-    payload?: string;
-    slot: string;
-    buttons: {
-      type?: string;
-      title?: string;
-      payload?: string;
-    }[]
-  }
+  payload: IRadioCheckbox;
+  url: string;
 }

@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -65,5 +66,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 4,
+  },
+  backgroundVideo: {
+    width: width / 1.5,
+    height: 150,    
+    borderRadius: 13,
   }
 });

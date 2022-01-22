@@ -1,0 +1,39 @@
+{
+  "type": "template",
+  "payload": {
+    "template_type": "checkbox",
+    "text": "",
+    "payload": "/goodbye",
+    "slot": "food",
+    "buttons": [
+      {
+        "title": "Vegetables",
+        "payload": "Vegetables"
+      },
+      {
+        "title": "Fast food",
+        "payload": "Fast food"
+      },
+      {
+        "title": "Fruits",
+        "payload": "Fruits"
+      }, 
+      {
+        "title": "Meat",
+        "payload": "Meat"
+      },                  
+      {
+        "title": "Cereals",
+        "payload": "Cereals"
+      },      
+      {
+        "title": "Desserts",
+        "payload": "Desserts"
+      },
+      {
+        "title": "Drinks",
+        "payload": "Drinks"
+      }            
+    ]
+  }
+}

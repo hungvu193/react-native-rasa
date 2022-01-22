@@ -29,6 +29,8 @@ export const createNewBotMessage = (botMessageObj: IRasaResponse, botData: User)
     keepIt: false,
     values: []
   } as QuickReplies;
+  let video = ''
+  if (custom?.type === "video") video= custom.url;
 
   if (isValidNotEmptyArray(buttons)) {
     quickReplies.values = buttons?.map((button) => ({
@@ -51,7 +53,8 @@ export const createNewBotMessage = (botMessageObj: IRasaResponse, botData: User)
     user: botData,
     text,
     image,
-    quickReplies
+    quickReplies,
+    video
   };
 }
 

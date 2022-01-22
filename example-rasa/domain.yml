@@ -1,0 +1,111 @@
+version: "3.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - reset
+  - show_image
+  - show_video
+  - show_checkbox
+  - show_buttons
+  - inform
+
+entities:
+  - food
+  - response_validation
+
+slots:
+  food:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: food
+      conditions:
+      - active_loop: show_buttons_form
+        requested_slot: food
+
+  food_list:
+    type: list
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: food
+      conditions:
+      - active_loop: show_checkbox_form
+        requested_slot: food_list
+
+  response_validation:
+    type: bool
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: response_validation
+
+responses:
+  utter_greet:
+    - text: "Hello 👋"
+
+  utter_cheer_up:
+    - text: "Here is something to cheer you up:"
+      image: "https://media.tenor.com/images/6cad22ea49eccb886699a403da413b78/tenor.gif"      
+
+  utter_did_that_help:
+    - text: "Did that help you?"
+
+  utter_happy:
+    - text: "Great, carry on!"
+
+  utter_goodbye:
+    - text: "Bye"
+
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa."
+
+  utter_default:
+    - text: I am sorry 🤔, I did not catch your last message
+
+  utter_out_of_scope:
+    - text: I am sorry, I don't understand what you're trying to tell me. Can you repeat it with other words, please?
+
+  utter_ask_rephrase:
+    - text: I don't understand what you're trying to tell me. Can you repeat it with other words, please?
+
+  utter_show_options:
+    - text: ¿What do you want to see?
+      buttons:
+        - title: An image
+          payload: /show_image
+        - title: A video
+          payload: /show_video
+        - title: Checkbox
+          payload: /show_checkbox
+
+  utter_restart:
+  - text: I have restarted the conversation. Let's start from the beginning again
+
+  utter_response:
+    - text: "You have responded with: {response_validation}"
+  
+  utter_summary:
+    - text: "You have chosen: {OPTIONS}"    
+
+actions:  
+  - action_ask_show_checkbox_form_food_list
+  - action_show_summary
+  - action_show_buttons
+  - action_show_video
+
+forms:
+  show_checkbox_form:    
+    required_slots:
+    - food_list
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
