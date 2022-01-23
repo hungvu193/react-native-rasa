@@ -53,14 +53,7 @@ const App = () => {
           renderInputToolbar={(props) => (
             <InputToolbar
               {...props}
-              containerStyle={{
-                // backgroundColor: '#d4d4d8',
-                paddingTop: 3,
-                paddingBottom: 3,
-                marginTop: 10,
-                marginBottom: -2
-
-              }}
+              containerStyle={styles.InputToolbar}
               primaryStyle={{ alignItems: 'center' }}
             />
           )}

@@ -1,8 +1,8 @@
 # react-native-rasa
 
-A simple react native project integrated with Rasa Open Source with REST. Please see more at [Rasa Rest API](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
+A simple react native project integrated with Rasa Open Source with using REST Channel. Please see more at [Rasa Rest API](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
 
-This project used [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat) so you can use all the props from it.
+This project uses [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat) so you can use all the props from it.
 
 ## Install
 
@@ -34,36 +34,55 @@ Restart your Rasa X or Rasa Open Source server to make the REST channel availabl
 
 Please see more informations from Rasa Doc at [here](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels), you also need to know about [react-native-gifted-chat message format](https://github.com/FaridSafi/react-native-gifted-chat#message-object) to understand how this libray works.
 
-## How to use
+## Rasa Example
+### Installation
+
+On the ***example-rasa*** folder there is a sample code using [poetry](https://python-poetry.org) and [Rasa 3.0.4](https://rasa.com/docs/rasa/). If you do not have poetry installed yet you can install it from [here](https://python-poetry.org/docs/#installation). It requires you have *python = ">=3.7,<3.9"* installed.
+
+You can activate a python environment and install packages with the following commands. Make sure you are on ***example-rasa*** folder
+```python
+poetry shell
+poetry install
+```
 
 ### Running the Rasa and Action Server
 
-At the root of your rasa project, run the following command to start the action server. It will be defaulted to port 5055. You can ignore this step if you don't use custom action.
+At the root of your rasa project, run the following command to start the action server. It will be defaulted to port 5055.
 
-```yml
+```python
 rasa run actions
 ```
 
 You should see the following output at the terminal
-![action-server-img](https://github.com/hungvu193/react-native-rasa/blob/master/preview/action-server.png)
+![action-server-img](preview/action-server.png)
 
-Open a new terminal and activate the same virtual environment. Change to directory to the same directory as the previous terminal. Run the following command to start the server. The default port is 5005.
+Open a new terminal and activate the same virtual environment with ***poetry shell***. Change to directory ***example-rasa***. Run the following command to start the server. The default port is 5005.
 
 ```
 rasa run --enable-api --cors "*"
 ```
 
-`cors` is required to allow secure data transfer and prevent you from getting [Cross-Origin Resource Sharing error](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors). The terminal will show the following output. For Windows users, you need to use double quotes to ensure that CORS registered correctly.
-![api-server-img](https://github.com/hungvu193/react-native-rasa/blob/master/preview/enable-api.png)
+`enable-api` is optional but `cors` is required to allow secure data transfer and prevent you from getting [Cross-Origin Resource Sharing error](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors). The terminal will show the following output. For Windows users, you need to use double quotes to ensure that CORS registered correctly.
+![api-server-img](preview/enable-api.png)
 
-### Add chat to your react-native app
+### Running ngrok
+Android and iOS apps will requiere secure ***https*** connections. If you are testing locally we recommend you to use [ngrok](https://ngrok.com/). You should copy the https address on **host** props.
+
+```
+./ngrok http 5005
+```
+
+![action-server-img](preview/ngrok.png)
+
+
+### Basic chat configuration
 
 ```javascript
 import React from 'react';
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import RNRasa from 'react-native-rasa';
 // your rasa host, for example:
-const HOST = 'http://localhost:5005';
+const HOST = ' https://fbe0-2800-bf0-24a-10f4-dd9a-922d-5642-b17c.ngrok.io';
 const App = () => {
   return (
     <>
@@ -87,46 +106,48 @@ export default StyleSheet.create({
 });
 ```
 
+For a custom Chat setup, please check the **App.tsx** file.
+
 ## Props
+- **`host`** _(string)_ - (Required) Your Rasa host, `http://<host>:<port>/webhooks/rest/webhook`, replacing the host and port with the appropriate values from your running Rasa X or Rasa Open Source server.
+- **`onSendMessFailed`** _(Function)_ - (Optional) Callback when sending a message failed.
+- **`onEmptyResponse`** _(Function)_ - (Optional) Callback when the bot return empty reponse (Sometimes it happens to Rasa Open Source).
+- **`emptyResponseMessage`** _(String)_ - (Optional) The message the bot will return in case the reponse is empty.
+- **`userId`** _(String)_ - (Optional) Sets the user Id..
+- **`userAvatar`** _(String)_ - (Optional) Sets the user Avatar using an image uri.
+- **`userName`** _(String)_ - (Optional) Sets the user name.
+- **`botName`** _(String)_ - (Optional) Sets the bot name.
+- **`botAvatar`** _(String)_ - (Optional) Sets the bot Avatar using an image uri.
 
-<!-- onSendMessFailed, onEmptyResponse, emptyResponseMessage -->
 
-- **`host`** _(string)_ - Your Rasa host, `http://<host>:<port>/webhooks/rest/webhook`, replacing the host and port with the appropriate values from your running Rasa X or Rasa Open Source server.
-- **`onSendMessFailed`** _(Function)_ - Callback when sending a message failed.
-- **`onEmptyResponse`** _(Function)_ - Callback when the bot return empty reponse (Sometimes it happens to Rasa Open Source).
-- **`emptyResponseMessage`** _(String)_ - The message the bot will return in case the reponse is empty.
 - You can also use all the props from [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat)
 
-## Preview
+## Methods
+- **`resetMessages`** _(Function)_ - This clear all messages on the widget.
+- **`resetBot`** _(Function)_ - It sends a **reset** intent to Rasa server (It will requiere a correct configuration on Rasa server to handle this intent. Check how to do that on the our sample code).
+- **`sendCustomMessage`** _(Function)_ - It allows to send custom text messages to Rasa server.
 
-<p float="left">
-  <img src="https://github.com/hungvu193/ReactNativeRasa/blob/master/preview/Simulator%20Screen%20Shot%20-%20iPhone%2011%20-%202020-12-25%20at%2017.05.06.png" width="200" />
-  <img src="https://github.com/hungvu193/ReactNativeRasa/blob/master/preview/Simulator%20Screen%20Shot%20-%20iPhone%2011%20-%202020-12-25%20at%2017.05.14.png" width="200" /> 
-  <img src="https://github.com/hungvu193/ReactNativeRasa/blob/master/preview/Simulator%20Screen%20Shot%20-%20iPhone%2011%20-%202020-12-25%20at%2017.05.17.png" width="200" />
+## Preview
+  
+<p align="center">
+  <img src="preview/demo.gif" width="200" align="center"/>
 </p>
 
 ### TODO List:
 
-- [ ] Reset bot on destroy
+- [x] Reset bot on destroy
 - [x] Add restart bot options
 - [x] Add checkbox messages and quick replies
 - [x] Add bot avatar
+- [x] Add example
+- [x] Add Video reponses
 - [ ] Voice support
-- [ ] Add example
+- [ ] Allow that users attach files and images
 
 PR are welcome ❤️
 
 ## License
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  <a title='License' href="https://github.com/hungvu193/react-native-rasat/blob/master/LICENSE" height="18">
+    <img src='https://img.shields.io/badge/license-MIT-blue.svg' />
+  </a>

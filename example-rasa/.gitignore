@@ -7,3 +7,4 @@
 .keras
 models
 .rasa
+story_graph.dot

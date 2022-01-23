@@ -71,5 +71,11 @@ export default StyleSheet.create({
     width: width / 1.5,
     height: 150,    
     borderRadius: 13,
+  },
+  InputToolbar: {
+    paddingTop: 3,
+    paddingBottom: 3,
+    marginTop: 10,
+    marginBottom: -2
   }
 });
