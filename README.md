@@ -50,6 +50,7 @@ poetry install
 At the root of your rasa project, run the following command to start the action server. It will be defaulted to port 5055.
 
 ```python
+rasa train
 rasa run actions
 ```
 
@@ -58,7 +59,7 @@ You should see the following output at the terminal
 
 Open a new terminal and activate the same virtual environment with ***poetry shell***. Change to directory ***example-rasa***. Run the following command to start the server. The default port is 5005.
 
-```
+```python
 rasa run --enable-api --cors "*"
 ```
 
