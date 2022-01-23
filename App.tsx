@@ -90,7 +90,6 @@ const App = () => {
           // @ts-ignore
           renderMessageVideo={(props) => {
             const { currentMessage } = props;
-            console.log('currentMessage', currentMessage)
             return (
               <View style={{ padding: 20 }}>
                 <Video                  
