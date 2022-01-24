@@ -83,7 +83,7 @@ import React from 'react';
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import RNRasa from 'react-native-rasa';
 // your rasa host, for example:
-const HOST = ' https://fbe0-2800-bf0-24a-10f4-dd9a-922d-5642-b17c.ngrok.io';
+const HOST = 'http://localhost:5005';
 const App = () => {
   return (
     <>
