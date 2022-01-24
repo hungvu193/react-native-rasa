@@ -1,0 +1,10 @@
+# dotenv environment variables file
+.env
+.env.production
+.env.test
+
+#rasa folder
+.keras
+models
+.rasa
+story_graph.dot

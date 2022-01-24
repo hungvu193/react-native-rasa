@@ -1,4 +1,5 @@
-import React, { useState, useCallback, FC } from 'react';
+import React, { useState, useCallback, useMemo, useImperativeHandle } from 'react';
+
 import {
   GiftedChat,
   GiftedChatProps,
@@ -23,6 +24,7 @@ import {
   User
 } from 'react-native-gifted-chat';
 import { IRasaMessage, IRasaResponse } from './types';
+
 import {
   createNewBotMessage,
   createBotEmptyMessage,
@@ -32,7 +34,6 @@ import {
 } from './utils';
 
 //TODO: reset bot on destroy
-
 export interface IRasaChat extends Omit<GiftedChatProps, 'user' | 'onSend' | 'messages' | 'onQuickReply'> {
   host: string;
   onSendMessFailed?: (error) => void
@@ -44,8 +45,13 @@ export interface IRasaChat extends Omit<GiftedChatProps, 'user' | 'onSend' | 'me
   botName?: string;
   botAvatar?: string;
 }
+export interface IRasaChatHandles {
+  resetMessages(): void;
+  resetBot(): void;
+  sendCustomMessage(string): void;
+}
 
-const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
+const RasaChat = React.forwardRef<IRasaChatHandles, IRasaChat>((props, ref) => {
   const {
     host,
     onSendMessFailed,
@@ -58,7 +64,8 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     botAvatar = '',
     ...giftedChatProp
   } = props;
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [lastRasaCustomResponse, setLastRasaCustomResponse] = useState<IRasaResponse>();
   const userData: User = {
     _id: userId,
     name: userName,
@@ -69,6 +76,28 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
     name: botName,
     avatar: botAvatar,
   }
+
+  // Inner function that cleans bot messages from a parent component
+  useImperativeHandle(ref, () => ({
+    resetMessages() {
+      setMessages([]);
+    },
+    resetBot() {
+      sendMessage("/restart")
+    },
+    sendCustomMessage(text: string) {
+      setMessages((previousMessages) =>
+        GiftedChat.append(previousMessages, [createQuickUserReply(text, userData)]),
+      );
+      sendMessage(text)
+    }
+  }));
+
+  // Check if last message contains a checkbox or not
+  const hasLastRasaMessageACheckbox = useMemo(() => {
+    if (lastRasaCustomResponse?.custom?.payload?.template_type === 'checkbox') return true;
+    return false;
+  }, [lastRasaCustomResponse]);
 
   // Parse the array message
   const parseMessages = useCallback((messArr: IRasaResponse[]): IMessage[] => {
@@ -88,7 +117,8 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
         ...fetchOptions,
         body: JSON.stringify(rasaMessageObj),
       });
-      const messagesJson = await response.json();
+      const messagesJson: IRasaResponse[] = await response.json();
+      let customMessage = messagesJson?.find((message) => message.hasOwnProperty('custom'))
       const newRecivieMess = parseMessages(messagesJson);
       if (!isValidNotEmptyArray(newRecivieMess)) {
         onEmptyResponse && onEmptyResponse();
@@ -100,6 +130,7 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
         }
         return;
       }
+      setLastRasaCustomResponse(customMessage);
       setMessages((previousMessages) =>
         GiftedChat.append(previousMessages, newRecivieMess.reverse()),
       );
@@ -130,16 +161,19 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
   const onQuickReply = useCallback((replies: Reply[]): void => {
     let quickMessage: IMessage[] = []
     let userText2Rasa: string = ''
-    // Case when reply is a radio -> just one option
-    if (replies.length === 1) {
+    // Case when reply is a radio -> just one option and not a checkbox with 1 option choosen
+    if (replies.length <= 1 && !hasLastRasaMessageACheckbox) {
       const { value = '', title = '' } = replies[0] ?? {};
       quickMessage = [createQuickUserReply(title, userData)]
       userText2Rasa = value;
     }
-    // Case when reply is a checkbox -> Multiple options
-    else if (replies.length > 1) {
+    // Case when reply is a checkbox -> Multiple options more than 2 options choosen
+    else {
       quickMessage = [...replies.map((reply) => createQuickUserReply(reply.title, userData))]
-      userText2Rasa = replies.map(reply => reply.value).join(', ');
+      const checkboxOptions = replies.map(reply => reply.value);
+      const { payload = '/custom_intent', slot = 'custom_slot' } = lastRasaCustomResponse?.custom?.payload ?? {};
+      const newPayload = JSON.stringify({ [slot]: checkboxOptions })
+      userText2Rasa = `${payload}${newPayload}`;
     }
     sendMessage(userText2Rasa);
     setMessages((previousMessages) =>
@@ -156,7 +190,7 @@ const RasaChat: FC<IRasaChat> = (props: IRasaChat) => {
       {...giftedChatProp}
     />
   );
-};
+});
 
 export default RasaChat;
 export { Actions, Avatar, Bubble, SystemMessage, MessageImage, MessageText, Composer, Day, InputToolbar, LoadEarlier, Message, MessageContainer, Send, Time, GiftedAvatar, utils };

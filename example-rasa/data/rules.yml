@@ -1,0 +1,79 @@
+version: "3.0"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_ask_rephrase
+
+- rule: out-of-scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+- rule: restart conversation
+  steps:
+  - intent: restart
+  - action: action_restart
+  - action: action_listen
+
+- rule: Request tasks
+  steps:
+    - intent: greet          
+    - action: utter_greet
+    - action: utter_show_options
+
+- rule: Show Image
+  steps:
+    - intent: show_image          
+    - action: utter_cheer_up
+
+- rule: Show Video
+  steps:
+    - intent: show_video          
+    - action: action_show_video
+
+- rule: Activate Show Checkbox Form
+  steps:
+    - intent: show_checkbox
+    - action: show_checkbox_form
+    - active_loop: show_checkbox_form
+
+- rule: Affirm Submit Show Checkbox Form
+  condition:
+    - active_loop: show_checkbox_form
+  steps:
+    - action: show_checkbox_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_show_summary
+    - action: action_show_buttons
+    - intent: affirm     
+    - action: utter_response   
+    - action: utter_goodbye
+
+- rule: Deny Submit Show Checkbox Form
+  condition:
+    - active_loop: show_checkbox_form
+  steps:
+    - action: show_checkbox_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_show_summary
+    - action: action_show_buttons
+    - intent: deny        
+    - action: utter_response
+    - action: utter_goodbye
