@@ -94,7 +94,7 @@ class ActionShowVideo(Action):
         
         video = {
             "type": "video",
-            "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+            "url": "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
         }
 
         dispatcher.utter_message(

@@ -68,8 +68,8 @@ export default StyleSheet.create({
     marginHorizontal: 4,
   },
   backgroundVideo: {
-    width: width / 1.5,
-    height: 150,    
+    width: width / 1.35,
+    height: width/ 1.35 * 9 / 16,
     borderRadius: 13,
   },
   InputToolbar: {
