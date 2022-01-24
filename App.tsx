@@ -42,7 +42,7 @@ const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>              
         <RasaChat
           ref={rasaChatRef}
           host={HOST}
@@ -91,12 +91,12 @@ const App = () => {
           renderMessageVideo={(props) => {
             const { currentMessage } = props;
             return (
-              <View style={{ padding: 20 }}>
+              <View style={{ padding: 0 }}>
                 <Video                  
                   source={{ uri: currentMessage?.video }}
                   resizeMode="cover"
                   repeat
-                  controls                  
+                  controls          
                   //onBuffer={this.onBuffer}                // Callback when remote video is buffering
                   //onError={this.videoError}               // Callback when video cannot be loaded
                   style={styles.backgroundVideo}

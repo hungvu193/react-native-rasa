@@ -149,6 +149,6 @@ PR are welcome ❤️
 
 ## License
 
-  <a title='License' href="https://github.com/hungvu193/react-native-rasat/blob/master/LICENSE" height="18">
+  <a title='License' href="https://github.com/hungvu193/react-native-rasa/blob/master/LICENSE" height="18">
     <img src='https://img.shields.io/badge/license-MIT-blue.svg' />
   </a>
