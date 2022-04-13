@@ -112,13 +112,13 @@ For a custom Chat setup, please check the **App.tsx** file.
 ## Props
 - **`host`** _(string)_ - (Required) Your Rasa host, `http://<host>:<port>/webhooks/rest/webhook`, replacing the host and port with the appropriate values from your running Rasa X or Rasa Open Source server.
 - **`onSendMessFailed`** _(Function)_ - (Optional) Callback when sending a message failed.
-- **`onEmptyResponse`** _(Function)_ - (Optional) Callback when the bot return empty reponse (Sometimes it happens to Rasa Open Source).
+- **`onEmptyResponse`** _(Function)_ - (Optional) Callback when the bot return empty response (Sometimes it happened to Rasa Open Source).
 - **`emptyResponseMessage`** _(String)_ - (Optional) The message the bot will return in case the reponse is empty.
-- **`userId`** _(String)_ - (Optional) Sets the user Id..
-- **`userAvatar`** _(String)_ - (Optional) Sets the user Avatar using an image uri.
-- **`userName`** _(String)_ - (Optional) Sets the user name.
-- **`botName`** _(String)_ - (Optional) Sets the bot name.
-- **`botAvatar`** _(String)_ - (Optional) Sets the bot Avatar using an image uri.
+- **`userId`** _(String)_ - (Optional) Set the user Id..
+- **`userAvatar`** _(String)_ - (Optional) Set the user Avatar using an image uri.
+- **`userName`** _(String)_ - (Optional) Set the user name.
+- **`botName`** _(String)_ - (Optional) Set the bot name.
+- **`botAvatar`** _(String)_ - (Optional) Set the bot Avatar using an image uri.
 
 
 - You can also use all the props from [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat)
