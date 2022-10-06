@@ -142,10 +142,10 @@ For a custom Chat setup, please check the **App.tsx** file.
 - [x] Add bot avatar
 - [x] Add example
 - [x] Add Video reponses
-- [ ] Voice support
 - [ ] Allow that users attach files and images
+- [ ] Example with customize UI
 
-PR are welcome ❤️
+Pull request are welcome :)
 
 ## License
 
