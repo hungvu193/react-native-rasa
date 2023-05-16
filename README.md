@@ -15,6 +15,7 @@ or
 ```
 npm install react-native rasa
 ```
+**Note: This package uses `patch-package` to fix some warnings from `react-native-gifted-chat`, so please make sure you have `patch-package` installed.**
 
 ## Setup your Rasa host
 
