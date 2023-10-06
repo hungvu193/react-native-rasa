@@ -1,3 +1,7 @@
+# Need maintainer
+
+Due to busy work, all the PRs are welcome!
+
 # react-native-rasa
 
 A simple react native project integrated with Rasa Open Source with using REST Channel. Please see more at [Rasa Rest API](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
