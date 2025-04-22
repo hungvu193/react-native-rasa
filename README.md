@@ -4,7 +4,7 @@ Due to busy work, all the PRs are welcome!
 
 # react-native-rasa
 
-A simple react native project integrated with Rasa Open Source with using REST Channel. Please see more at [Rasa Rest API](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
+A simple react native project integrated with Rasa Open Source using REST Channel. Please see more at [Rasa Rest API](https://rasa.com/docs/rasa/connectors/your-own-website/#rest-channels).
 
 This project uses [react-native-gifted-chat](https://github.com/FaridSafi/react-native-gifted-chat) so you can use all the props from it.
 
